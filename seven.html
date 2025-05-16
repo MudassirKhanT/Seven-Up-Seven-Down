@@ -15,7 +15,7 @@
       }
 
       body {
-        background: url("/assets/seven.jpg") no-repeat center center/cover;
+        background: url("./assets/seven.jpg") no-repeat center center/cover;
         min-height: 100vh;
         color: #fff;
         display: flex;
@@ -198,9 +198,9 @@
         let balance = 0;
         let inputVal = document.getElementById("in").value;
         let i1 = document.getElementById("img1");
-        i1.setAttribute("src", `/assets/die${d1}.jpg`);
+        i1.setAttribute("src", `./assets/die${d1}.jpg`);
         let i2 = document.getElementById("img2");
-        i2.setAttribute("src", `/assets/die${d2}.jpg`);
+        i2.setAttribute("src", `./assets/die${d2}.jpg`);
         if (d1 + d2 == 7 && choices == "7") {
           win();
           document.getElementById("head").innerHTML = `You Won Exact 7 Balance is:${(balance += inputVal * 3)}`;
