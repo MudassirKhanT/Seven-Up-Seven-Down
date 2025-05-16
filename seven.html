@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seven Up And Seven Down</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: url("/assets/seven.jpg") no-repeat center center/cover;
+        min-height: 100vh;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+      }
+
+      .main {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 2rem;
+        width: 100%;
+        max-width: 800px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 10px #000;
+      }
+
+      .choices {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .choices div {
+        flex: 1;
+        text-align: center;
+        padding: 1.5rem 0;
+        font-size: 1.5rem;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        background: rgba(91, 0, 91, 0.8);
+        border: 2px solid #fff;
+        user-select: none;
+      }
+
+      .choices div:hover {
+        background-color: #e84393;
+        transform: scale(1.05);
+      }
+
+      .inputs {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+      }
+
+      .inputs input {
+        width: 50%;
+        padding: 0.6rem 1rem;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        margin-right: 1rem;
+        background: rgba(255, 255, 255, 0.3);
+        color: #fff;
+        font-size: 1rem;
+      }
+
+      .inputs input::placeholder {
+        color: #eee;
+      }
+
+      .inputs button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+        background-color: #e84393;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .inputs button:hover {
+        background-color: #d63074;
+        transform: scale(1.05);
+      }
+
+      .images {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .images img {
+        width: 100px;
+        height: 100px;
+        animation: roll 0.5s ease;
+      }
+
+      @keyframes roll {
+        0% {
+          transform: rotate(0deg) scale(1);
+        }
+        50% {
+          transform: rotate(360deg) scale(1.1);
+        }
+        100% {
+          transform: rotate(720deg) scale(1);
+        }
+      }
+
+      #head {
+        font-size: 1.8rem;
+        text-align: center;
+        margin-top: 1rem;
+        font-weight: bold;
+        text-shadow: 1px 1px 5px #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <center style="color: white"><h1>Seven Up Seven Down</h1></center>
+      <div class="choices">
+        <div id="seven-up">7 Up</div>
+        <div id="seven">7</div>
+        <div id="seven-down">7 Down</div>
+      </div>
+      <div class="inputs">
+        <input type="text" id="in" placeholder="Enter the bet" />
+        <button onclick="roll()">Start The Game</button>
+      </div>
+
+      <div class="images">
+        <img src="" alt="" id="img1" class="rotate linear infinite" />
+        <img src="" alt="" id="img2" class="rotate linear infinite" />
+      </div>
+      <h1 id="head"></h1>
+    </div>
+    <script>
+      function win() {
+        let audio = new Audio("/assets/win.mp3");
+        audio.play();
+      }
+      function lost() {
+        let audio = new Audio("/assets/loss.mp3");
+        audio.play();
+      }
+      document.getElementById("seven-up").addEventListener("click", sevenUp);
+      document.getElementById("seven").addEventListener("click", seven);
+      document.getElementById("seven-down").addEventListener("click", sevenDown);
+      let choices = "";
+      function sevenUp() {
+        choices = "7up";
+        document.getElementById("seven").style.display = "none";
+        document.getElementById("seven-down").style.display = "none";
+        document.getElementById("seven-up").style.display = "block";
+      }
+      function seven() {
+        choices = "7";
+        document.getElementById("seven").style.display = "block";
+        document.getElementById("seven-down").style.display = "none";
+        document.getElementById("seven-up").style.display = "none";
+      }
+      function sevenDown() {
+        choices = "7down";
+        document.getElementById("seven").style.display = "none";
+        document.getElementById("seven-down").style.display = "block";
+        document.getElementById("seven-up").style.display = "none";
+      }
+      function roll() {
+        let l = [1, 2, 3, 4, 5, 6];
+        let r1 = Math.floor(Math.random() * 6);
+        let r2 = Math.floor(Math.random() * 6);
+        let d1 = l[r1];
+        let d2 = l[r2];
+        let balance = 0;
+        let inputVal = document.getElementById("in").value;
+        let i1 = document.getElementById("img1");
+        i1.setAttribute("src", `/assets/die${d1}.jpg`);
+        let i2 = document.getElementById("img2");
+        i2.setAttribute("src", `/assets/die${d2}.jpg`);
+        if (d1 + d2 == 7 && choices == "7") {
+          win();
+          document.getElementById("head").innerHTML = `You Won Exact 7 Balance is:${(balance += inputVal * 3)}`;
+          document.getElementById("seven-up").style.display = "block";
+          document.getElementById("seven-down").style.display = "block";
+        } else if (d1 + d2 < 7 && choices == "7down") {
+          win();
+          document.getElementById("head").innerHTML = `You Won Exact 7down Balance is:${(balance += inputVal * 2)}`;
+          document.getElementById("seven-up").style.display = "block";
+          document.getElementById("seven").style.display = "block";
+        } else if (d1 + d2 > 7 && choices == "7up") {
+          win();
+          document.getElementById("head").innerHTML = `You Won Exact 7up Balance is:${(balance += inputVal * 2)}`;
+          document.getElementById("seven-down").style.display = "block";
+          document.getElementById("seven").style.display = "block";
+        } else {
+          lost();
+          document.getElementById("head").innerHTML = `You Lost Balance is:${(balance = balance - inputVal)}`;
+          document.getElementById("seven-up").style.display = "block";
+          document.getElementById("seven").style.display = "block";
+          document.getElementById("seven-down").style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>
